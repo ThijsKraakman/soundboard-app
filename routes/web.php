@@ -14,3 +14,12 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::resource('sounds', 'SoundController');
+});
+
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
