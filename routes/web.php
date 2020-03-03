@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::resource('sounds', 'SoundController');
+    Route::resource('sounds', 'SoundController')->except('show');
 });
 
 

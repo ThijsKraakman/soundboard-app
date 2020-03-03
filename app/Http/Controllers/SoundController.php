@@ -16,11 +16,6 @@ class SoundController extends Controller
         return view('sounds.index', compact('sounds'));
     }
 
-    // public funcion show()
-    // {
-
-    // }
-
     public function create()
     {
         return view('sounds.create');
@@ -30,25 +25,11 @@ class SoundController extends Controller
     {
         $data = $request->validated();
         $data['owner_id'] = Auth::user()->id;
-        $data['file'] = $request->file->store('sounds');
+        $filename = $data['file']->getClientOriginalName();
+        $data['file'] = $request->file->storeAs('sounds', $filename);
 
         Sound::create($data);
 
         return redirect('sounds/');
     }
-
-    // public function edit(Project $project)
-    // {
-
-    // }
-
-    // public function update(Sound $p)
-    // {
-
-    // }
-
-    // public function destroy(Project $project)
-    // {
-
-    // }
 }
