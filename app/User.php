@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'username', 'email', 'password',
     ];
 
     /**
@@ -40,5 +40,15 @@ class User extends Authenticatable
     public function sounds()
     {
         return $this->hasMany(Sound::class);
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'username';
+    }
+
+    public function points()
+    {
+        return Sound::where('owner_id', $this->id)->sum('points');
     }
 }

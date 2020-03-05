@@ -16,8 +16,9 @@ class CreateSoundsTable extends Migration
         Schema::create('sounds', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('title');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->text('file');
+            $table->integer('points')->nullable();
             $table->unsignedBigInteger('owner_id');
             $table->foreign('owner_id')->references('id')->on('users');
             $table->timestamps();
