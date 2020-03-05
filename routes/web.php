@@ -17,6 +17,8 @@ Route::get('/', function () {
 
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('sounds', 'SoundController')->except('show');
+    // Route::resource('profile', 'ProfileController')->except('index');
+    Route::get('profile/{user}', 'ProfileController@show')->name('profile.show');
 });
 
 

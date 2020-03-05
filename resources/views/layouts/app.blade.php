@@ -11,65 +11,50 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body class="bg-grey-light m-0">
-    <div id="app">
-        <nav class="bg-white">
-            <div class="container mx-auto">
-            <div class="flex justify-between items-center py-2">
-                <h1>
-                    <a class="navbar-brand" href="{{ url('/sounds') }}">
-                    <h1>Soundboard app</h1>
-                </a>
-                </h1>
-
-                <div>
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
-                </div>
+<body>
+    <div class="bg-gray-200 min-h-screen" id="app">
+        <nav class="flex items-center justify-between bg-gray-800 p-6">
+            <div class="flex items-center text-white text-lg mr-6">
+                <i class="material-icons mr-2">music_note</i>
+                <a href="{{ url('/sounds') }}">Soundboard app</a>
             </div>
+            @guest
+            <button class="flex items-center text-white mr-6 no-underline focus:outline-none">
+                <i class="material-icons mr-2">person</i>
+                <a href="{{ route('login') }}">Login</a>
+            </button>
+            @endguest
+            @auth
+            <dropdown>
+                <template v-slot:trigger>
+                    <button class="flex items-center text-white mr-6 no-underline focus:outline-none">
+                        <i class="material-icons mr-2">person</i>
+                        <a>{{ auth()->user()->username }}</a>
+                    </button>
+                </template>
+
+                <a href="{{ route('profile.show', auth()->user()->username) }}" class="block text-default no-underline text-sm leading-10 px-4 hover:bg-gray-400">Profile</a>
+                <a href="{{ route('logout') }}" class="block text-default no-underline text-sm leading-10 px-4 hover:bg-gray-400"
+                onclick="event.preventDefault();
+                              document.getElementById('logout-form').submit();">
+                 {{ __('Logout') }}
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+            </dropdown>
+            @endauth
         </nav>
 
-        <main class="container mx-auto py-4">
+        <main class="container bg-gray-200 mx-auto py-4">
             @yield('content')
         </main>
     </div>
