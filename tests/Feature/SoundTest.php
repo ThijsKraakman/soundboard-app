@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class SoundFeatureTest extends TestCase
+class SoundTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -21,8 +21,12 @@ class SoundFeatureTest extends TestCase
         $this->get('/sounds/create')
             ->assertStatus(200);
 
-        $sound = factory(Sound::class)->make();
-        $file = $this->createFile();
+        $sound = factory(Sound::class)->make([
+            'file' => 'sounds/sound.mp3',
+            'owner_id' => 1]
+        );
+
+        $file = $this->createFile('sound.mp3');
 
         $data =  [
             'title' => $sound->title,
@@ -43,8 +47,8 @@ class SoundFeatureTest extends TestCase
     {
         $this->signIn();
         $sound = factory(Sound::class)->make();
-        Storage::fake('sounds');
-        $file = UploadedFile::fake()->create('sound.mp3', 100);
+
+        $file = $this->createFile('sound.mp3');
 
         $data =  [
             'title' => $sound->title,
@@ -61,24 +65,6 @@ class SoundFeatureTest extends TestCase
 
         $this->deleteFile();
     }
-    public function tests_a_sound_belongs_to_an_owner()
-    {
-        $this->signIn();
-        $sound = factory(Sound::class)->make();
-        Storage::fake('sounds');
-        $file = UploadedFile::fake()->create('sound.mp3', 100);
-
-        $this->post('/sounds', [
-            'title' => $sound->title,
-            'description' => $sound->description,
-            'file' => $file,
-            'owner_id' => $sound->owner_id
-        ])->assertRedirect('/sounds');
-
-        $this->assertDatabaseHas('sounds', $sound->toArray());
-
-        $this->deleteFile();
-    }
 
     public function tests_only_audio_files_can_be_stored()
     {
@@ -88,8 +74,8 @@ class SoundFeatureTest extends TestCase
             ->assertStatus(200);
 
         $sound = factory(Sound::class)->make();
-        Storage::fake('sounds');
-        $file = UploadedFile::fake()->create('file.pdf', 100);
+
+        $file = $this->createFile('file.pdf');
 
         $this->post('/sounds', [
             'title' => $sound->title,

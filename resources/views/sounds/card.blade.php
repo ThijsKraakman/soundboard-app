@@ -7,7 +7,7 @@
                 <div class="font-bold text-l ml-5 mt-2 w-1/4">{{ $sound->created_at->diffForHumans() }}</div>
             </div>
             <div class="mb-4">
-                <audio controls>
+                <audio controls class="w-full">
                     <source src={{ asset($sound->file) }}>
                 </audio>
             </div>

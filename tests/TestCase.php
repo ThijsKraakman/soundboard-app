@@ -22,7 +22,7 @@ abstract class TestCase extends BaseTestCase
     protected function createFile($file = null)
     {
         Storage::fake('sounds');
-        $file = UploadedFile::fake()->create('sound.mp3', 100);
+        $file = UploadedFile::fake()->create($file, 100);
 
         return $file;
     }
