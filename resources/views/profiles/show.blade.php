@@ -6,7 +6,7 @@
         <div class="bg-white border-2 rounded-lg">
             <div class="px-6 py-6">
                 <p class="text-3xl">{{ $user->username }}</p>
-                <p class="text-lg mb-6">Points: {{ $user->points() }}</p>
+                <p class="text-lg mb-6">Points: {{ $user->getPoints() }}</p>
                 <hr>
                 <p class="text-3xl mt-6">Achievements</p>
                 <p class="text-lg">Achievements here</p>

@@ -2,6 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
+use App\Points;
 use App\User;
 use App\Sound;
 use Illuminate\Support\Str;
@@ -34,4 +35,11 @@ $factory->afterCreatingState(User::class, 'withSounds', function ($user, Faker $
         'file' => 'sounds/file.mp3',
         'points' => rand(1, 20)
         ]);
+});
+
+$factory->afterCreatingState(User::class, 'withPoints', function ($user, Faker $faker) {
+    factory(Points::class)->create([
+        'user_id' => $user->id,
+        'points' => $faker->numberBetween(100, 10000)
+    ]);
 });

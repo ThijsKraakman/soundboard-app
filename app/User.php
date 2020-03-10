@@ -2,9 +2,10 @@
 
 namespace App;
 
+use App\Points;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -42,13 +43,23 @@ class User extends Authenticatable
         return $this->hasMany(Sound::class);
     }
 
+    public function points()
+    {
+        return $this->hasOne(Points::class);
+    }
+
+    public function getPoints()
+    {
+        return Points::where('user_id', $this->id)->sum('points');
+    }
+
     public function getRouteKeyName()
     {
         return 'username';
     }
 
-    public function points()
-    {
-        return Sound::where('owner_id', $this->id)->sum('points');
-    }
+    // public function points()
+    // {
+    //     return Sound::where('owner_id', $this->id)->sum('points');
+    // }
 }

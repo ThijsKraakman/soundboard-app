@@ -17,7 +17,7 @@ class ProfileTest extends TestCase
 
     public function tests_it_has_points()
     {
-        $profile = factory(User::class)->states('withSounds')->create();
-        $this->assertNotNull($profile->points());
+        $profile = factory(User::class)->states('withPoints')->create();
+        $this->assertNotNull($profile->points);
     }
 }

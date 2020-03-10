@@ -13,12 +13,13 @@ class ProfileFeatureTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function tests_when_registering_a_new_profile_is_created()
+    public function tests_when_registering_points_are_linked()
     {
         $this->signIn();
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('withPoints')->create();
 
-        $this->get('/profile/' . $user->username)->assertStatus(200);
+        $this->assertDatabaseHas('users', $user->toArray());
+        $this->assertDatabaseHas('points', ['user_id' => $user->id]);
     }
 
     public function tests_a_profile_can_be_viewed()
@@ -35,7 +36,7 @@ class ProfileFeatureTest extends TestCase
         $this->signIn();
         $user = factory(User::class)->states('withSounds')->create();
         $this->get('/profile/' . $user->username)
-            ->assertSee($user->points());
+            ->assertSee($user->getPoints());
     }
 
     public function tests_a_profiles_unlocked_achievements_can_be_viewed()

@@ -27,7 +27,7 @@ class SoundTest extends TestCase
         $this->assertEquals('/sounds/file.mp3', $sound->file);
     }
 
-    public function tests_it_has_a_owner()
+    public function tests_it_has_an_owner()
     {
         $sound = factory(Sound::class)->create();
         $this->assertEquals(1, $sound->owner_id);

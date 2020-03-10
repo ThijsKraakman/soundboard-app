@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSoundRequest;
+use App\Points;
 use App\Sound;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,6 +30,11 @@ class SoundController extends Controller
         $data['file'] = $request->file->storeAs('sounds', $filename);
 
         Sound::create($data);
+
+        $points = Points::firstOrCreate(['user_id' => Auth::user()->id]);
+
+        $points->awardPoints(Auth::user(), 100);
+        $points->save();
 
         return redirect('sounds/');
     }
