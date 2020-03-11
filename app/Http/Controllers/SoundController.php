@@ -13,7 +13,7 @@ class SoundController extends Controller
 {
     public function index()
     {
-        $sounds = Sound::all();
+        $sounds = Sound::all()->sortByDesc('created_at');
         return view('sounds.index', compact('sounds'));
     }
 
