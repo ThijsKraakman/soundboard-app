@@ -1,11 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-@csrf
 <div class="bg-white border-2 rounded-lg">
     <div class="px-6 py-6">
     <form method="POST" enctype="multipart/form-data" action="/sounds">
-        {{ csrf_field() }}
+        @csrf
         <div class="field mb-6">
             <label class="label font-bold mb-2 block" for="title">Title</label>
             <div class="control">
