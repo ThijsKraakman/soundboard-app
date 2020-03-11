@@ -26,8 +26,18 @@ class SoundController extends Controller
     {
         $data = $request->validated();
         $data['owner_id'] = Auth::user()->id;
-        $filename = $data['file']->getClientOriginalName();
-        $data['file'] = $request->file->storeAs('sounds', $filename);
+
+        $soundFilename = $data['file']->getClientOriginalName();
+
+        if (array_key_exists('image', $data)) {
+            $imageFilename = $data['image']->getClientOriginalName();
+            $data['image'] = $request->image->storeAs('images', $imageFilename);
+        } else {
+            $imageFilename = 'default.jpg';
+            $data['image'] = 'images/' . $imageFilename;
+        };
+
+        $data['file'] = $request->file->storeAs('sounds', $soundFilename);
 
         Sound::create($data);
 

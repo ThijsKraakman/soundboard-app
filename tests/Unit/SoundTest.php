@@ -21,7 +21,7 @@ class SoundTest extends TestCase
         $this->assertEquals('A description', $sound->description);
     }
 
-    public function tests_it_has_a_file_path()
+    public function tests_it_has_a_sound_file_path()
     {
         $sound = factory(Sound::class)->create(['file' => '/sounds/file.mp3']);
         $this->assertEquals('/sounds/file.mp3', $sound->file);
@@ -31,5 +31,11 @@ class SoundTest extends TestCase
     {
         $sound = factory(Sound::class)->create();
         $this->assertEquals(1, $sound->owner_id);
+    }
+
+    public function tests_it_has_an_image_path()
+    {
+        $sound = factory(Sound::class)->create(['image' => '/images/file.jpg']);
+        $this->assertEquals('/images/file.jpg', $sound->image);
     }
 }

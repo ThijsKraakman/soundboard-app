@@ -18,7 +18,7 @@ class CreateSoundsTable extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->text('file');
-            $table->integer('points')->nullable();
+            $table->text('image')->nullable();
             $table->unsignedBigInteger('owner_id');
             $table->foreign('owner_id')->references('id')->on('users');
             $table->timestamps();

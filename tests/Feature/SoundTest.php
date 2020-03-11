@@ -15,8 +15,9 @@ class SoundTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function tests_a_sound_can_be_created()
+    public function tests_a_sound_can_be_created_without_image()
     {
+        $this->withoutExceptionHandling();
         $this->signIn();
         $this->get('/sounds/create')
             ->assertStatus(200);
@@ -26,7 +27,7 @@ class SoundTest extends TestCase
             'owner_id' => 1]
         );
 
-        $file = $this->createFile('sound.mp3');
+        $file = $this->createSoundFile('sound.mp3');
 
         $data =  [
             'title' => $sound->title,
@@ -38,17 +39,62 @@ class SoundTest extends TestCase
         $this->post('/sounds', $data)->assertRedirect('/sounds');
 
         $this->assertFileExists($file);
-        $this->assertDatabaseHas('sounds', $sound->toArray());
+        $this->assertDatabaseHas('sounds', [
+            'title' => $sound->title,
+            'description' => $sound->description,
+            'file' => 'sounds/sound.mp3',
+            'image' => 'images/default.jpg',
+            'owner_id' => $sound->owner_id
+        ]);
 
-        $this->deleteFile();
+        $this->deleteSoundFile();
     }
 
+    public function tests_a_sound_can_be_created_with_image()
+    {
+        $this->withoutExceptionHandling();
+        $this->signIn();
+        $this->get('/sounds/create')
+            ->assertStatus(200);
+
+        $sound = factory(Sound::class)->make([
+            'file' => 'sounds/sound.mp3',
+            'owner_id' => 1]
+        );
+
+        $file = $this->createSoundFile('sound.mp3');
+        $image = $this->createImage('image.jpg');
+
+        $data =  [
+            'title' => $sound->title,
+            'description' => $sound->description,
+            'file' => $file,
+            'image' => $image,
+            'owner_id' => $sound->owner_id
+        ];
+
+        $this->post('/sounds', $data)->assertRedirect('/sounds');
+
+        $this->assertFileExists($file);
+        $this->assertFileExists($image);
+
+        $this->assertDatabaseHas('sounds', [
+            'title' => $sound->title,
+            'description' => $sound->description,
+            'file' => 'sounds/sound.mp3',
+            'image' => 'images/image.jpg',
+            'owner_id' => $sound->owner_id
+        ]);
+
+        $this->deleteSoundFile();
+        $this->deleteImageFile();
+    }
     public function tests_a_sound_can_be_retrieved()
     {
         $this->signIn();
         $sound = factory(Sound::class)->make();
 
-        $file = $this->createFile('sound.mp3');
+        $file = $this->createSoundFile('sound.mp3');
 
         $data =  [
             'title' => $sound->title,
@@ -63,7 +109,7 @@ class SoundTest extends TestCase
             ->assertSee($data['title'])
             ->assertSee($data['description']);
 
-        $this->deleteFile();
+        $this->deleteSoundFile();
     }
 
     public function tests_only_audio_files_can_be_stored()
@@ -75,7 +121,7 @@ class SoundTest extends TestCase
 
         $sound = factory(Sound::class)->make();
 
-        $file = $this->createFile('file.pdf');
+        $file = $this->createSoundFile('file.pdf');
 
         $this->post('/sounds', [
             'title' => $sound->title,
@@ -84,9 +130,14 @@ class SoundTest extends TestCase
             'owner_id' => $sound->owner_id
         ])->assertSessionHasErrors();
 
-        $this->assertDatabaseMissing('sounds', $sound->toArray());
+        $this->assertDatabaseMissing('sounds', [
+            'title' => $sound->title,
+            'description' => $sound->description,
+            'file' => 'sounds/sound.mp3',
+            'owner_id' => $sound->owner_id
+        ]);
 
-        $this->deleteFile();
+        $this->deleteSoundFile();
     }
 
     public function tests_title_is_required()
@@ -109,6 +160,6 @@ class SoundTest extends TestCase
 
         $this->post('/sounds', $data)->assertSessionHasErrors('title');
 
-        $this->deleteFile();
+        $this->deleteSoundFile();
     }
 }

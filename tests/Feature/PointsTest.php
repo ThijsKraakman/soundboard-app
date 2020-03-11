@@ -31,7 +31,7 @@ class PointsTest extends TestCase
         $this->signIn();
         $this->createSound();
         $this->assertDatabaseHas('points', ['user_id' => 1, 'points' => 100]);
-        $this->deleteFile();
+        $this->deleteSoundFile();
     }
 
     public function tests_points_are_awarded_when_another_user_likes_your_sound()

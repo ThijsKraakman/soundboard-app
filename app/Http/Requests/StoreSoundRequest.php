@@ -16,7 +16,8 @@ class StoreSoundRequest extends FormRequest
         return [
             'title' => 'required|max:255',
             'description' =>  'nullable|max:255',
-            'file' => 'mimetypes:audio/mpeg'
+            'file' => 'required|mimetypes:audio/mpeg',
+            'image' => 'nullable|mimetypes:image/jpeg'
         ];
     }
 }

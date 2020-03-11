@@ -13,6 +13,7 @@ $factory->define(Sound::class, function (Faker $faker) {
         'title' => $faker->word,
         'description' => $faker->text,
         'file' => '/sounds/' . $faker->word,
+        'image' => '/images/' . $faker->word,
         'owner_id' => Auth::user()->id ?? factory(User::class),
     ];
 });

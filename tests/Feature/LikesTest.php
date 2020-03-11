@@ -12,6 +12,7 @@ class LikesTest extends TestCase
     use RefreshDatabase;
     public function tests_a_user_can_like_a_sound()
     {
+        $this->withoutExceptionHandling();
         $this->signIn();
         $this->createSound();
         $sound = Sound::first();

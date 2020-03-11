@@ -32,8 +32,7 @@ $factory->define(User::class, function (Faker $faker) {
 $factory->afterCreatingState(User::class, 'withSounds', function ($user, Faker $faker) {
     factory(Sound::class, rand(5, 10))->create([
         'owner_id' => $user->id,
-        'file' => 'sounds/file.mp3',
-        'points' => rand(1, 20)
+        'file' => 'sounds/file.mp3'
         ]);
 });
 

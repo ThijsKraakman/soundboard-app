@@ -17,7 +17,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'developer@test.com',
             'password' => bcrypt('secret')
         ])->each(function ($user) {
-            factory(Sound::class, rand(5,10))->create(['owner_id' => $user->id, 'file' => 'sounds/file.mp3']);
+            factory(Sound::class, rand(5,10))->create(['owner_id' => $user->id, 'file' => 'sounds/file.mp3', 'image' => 'images/file.jpg']);
         });
     }
 }

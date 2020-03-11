@@ -20,7 +20,7 @@ abstract class TestCase extends BaseTestCase
         return $user;
     }
 
-    protected function createFile($file = null)
+    protected function createSoundFile($file = null)
     {
         Storage::fake('sounds');
         $file = UploadedFile::fake()->create($file, 100);
@@ -28,10 +28,24 @@ abstract class TestCase extends BaseTestCase
         return $file;
     }
 
-    protected function deleteFile($file = null)
+    protected function createImage($file = null)
+    {
+        Storage::fake('images');
+        $file = UploadedFile::fake()->create($file, 100);
+
+        return $file;
+    }
+
+    protected function deleteSoundFile($file = null)
     {
         Storage::delete('/sounds/sound.mp3');
         $this->assertFileNotExists('/sounds/sound.mp3');
+    }
+
+    protected function deleteImageFile($file = null)
+    {
+        Storage::delete('/images/image.jpg');
+        $this->assertFileNotExists('/images/image.jpg');
     }
 
     public function createSound()
@@ -41,12 +55,14 @@ abstract class TestCase extends BaseTestCase
             'owner_id' => 1]
         );
 
-        $file = $this->createFile('sound.mp3');
+        $file = $this->createSoundFile('sound.mp3');
+        $image = $this->createImage('file.jpg');
 
         $data =  [
             'title' => $sound->title,
             'description' => $sound->description,
             'file' => $file,
+            'image' => $image,
             'owner_id' => $sound->owner_id
         ];
 
