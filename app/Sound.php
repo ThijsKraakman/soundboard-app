@@ -28,6 +28,10 @@ class Sound extends Model
     public function like()
     {
         if(! $this->likes()->where(['user_id' => auth()->id()])->exists()) {
+            $points = Points::firstOrCreate(['user_id' => $this->owner->id]);
+
+            $points->awardPoints($this->owner, 100);
+            $points->save();
             return $this->likes()->create(['user_id' => auth()->id()]); //give like
         } else {
             $this->likes()->where('user_id', auth()->id())->first()->delete(); //remove like

@@ -13,11 +13,6 @@ class LikeController extends Controller
     {
         $sound->like();
 
-        $points = Points::firstOrCreate(['user_id' => $sound->owner->id]);
-
-        $points->awardPoints($sound->owner, 100);
-        $points->save();
-
         return back();
     }
 }
