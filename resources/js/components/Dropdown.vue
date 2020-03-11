@@ -1,6 +1,6 @@
 <template>
     <div class="dropdown relative">
-        <div class="dropdown-toggle hover:bg-green-400 border-solid border-2 rounded border-white p-2"
+        <div class="dropdown-toggle hover:bg-green-400 rounded"
             aria-haspopup="true"
             aria-expanded="isOpen"
             @click.prevent="isOpen = !isOpen">

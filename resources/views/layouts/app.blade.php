@@ -21,13 +21,14 @@
 </head>
 <body>
     <div class="bg-gray-200 min-h-screen" id="app">
-        <nav class="flex items-center justify-between bg-gray-800 p-6">
-            <div class="flex items-center text-white text-lg mr-6">
+        <div class="flex bg-gray-800 p-5">
+            <div class="flex w-full justify-between items-center max-w-screen-xl relative mx-auto px-6">
+            <div class="flex w-1/2 items-center text-white text-lg mr-6">
                 <i class="material-icons mr-2">music_note</i>
-                <a href="{{ url('/sounds') }}">Soundboard app</a>
+                <a href="{{ url('/sounds') }}">Soundboard</a>
             </div>
             @guest
-            <button class="flex items-center text-white mr-6 no-underline focus:outline-none">
+            <button class="flex items-end text-white mr-6 no-underline focus:outline-none">
                 <i class="material-icons mr-2">person</i>
                 <a href="{{ route('login') }}">Login</a>
             </button>
@@ -35,7 +36,7 @@
             @auth
             <dropdown>
                 <template v-slot:trigger>
-                    <button class="flex items-center text-white mr-6 no-underline focus:outline-none">
+                    <button class="flex items-end text-white mr-6 no-underline focus:outline-none">
                         <i class="material-icons mr-2">person</i>
                         <a>{{ auth()->user()->username }}</a>
                     </button>
@@ -52,11 +53,12 @@
                 </form>
             </dropdown>
             @endauth
-        </nav>
-
-        <main class="container bg-gray-200 mx-auto py-4">
+        </div>
+    </div>
+        <main class="w-full max-w-screen-xl bg-gray-200 mx-auto py-4">
             @yield('content')
         </main>
+
     </div>
 </body>
 </html>

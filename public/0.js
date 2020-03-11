@@ -67,8 +67,7 @@ var render = function() {
     _c(
       "div",
       {
-        staticClass:
-          "dropdown-toggle hover:bg-green-400 border-solid border-2 rounded border-white p-2",
+        staticClass: "dropdown-toggle hover:bg-green-400 rounded",
         attrs: { "aria-haspopup": "true", "aria-expanded": "isOpen" },
         on: {
           click: function($event) {

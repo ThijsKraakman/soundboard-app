@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="w-full px-6 pt-6">
-    <p class="text-3xl">{{ $user->username }}'s sounds</p>
+    <p class="text-3xl">Sounds</p>
 </div>
     @foreach($sounds as $sound)
     @include('sounds.card')
